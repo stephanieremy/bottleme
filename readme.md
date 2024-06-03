@@ -19,7 +19,7 @@ This repo uses [Expo](https://docs.expo.dev/) It includes the following packages
 - you can also install Expo on
   your [mobile phone](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=fr&pli=1)
 
-### Build
+### Development
 
 To start the server and build the app, the following command:
 
@@ -33,3 +33,14 @@ npx expo
 ```
 
 Then choose a for android, w for web, or scan the QR code with the Expo App
+
+### Build
+
+To build with Expo, you must register in [Expo Dev](https://expo.dev)
+To build the app on Expo Dev run the following command :
+
+```
+ eas build -p android --profile preview
+```
+
+You will be able to run the app on a local emulator

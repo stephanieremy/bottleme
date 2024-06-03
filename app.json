@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Bottle",
+    "name": "Bottle Me",
     "slug": "Bottle",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -18,10 +18,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.stephanieremy.bottleme"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "089652b5-362d-4e9a-b6d4-60f6fa8b00cc"
+      }
     }
   }
 }

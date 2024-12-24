@@ -17,8 +17,8 @@ function AllBottles() {
       try {
         const bottles = await fetchBottles();
         bottlesCtx.setBottles(bottles);
-      } catch (error) {
-        setError("Could not fetch bottles");
+      } catch (e) {
+        setError(e);
       }
     }
 
@@ -34,9 +34,10 @@ function AllBottles() {
     return <LoadingOverlay />;
   }
 
-  if (error && !isFetching) {
+  if (!(error && !isFetching)) {
     return <ErrorOverlay message={error} onConfirm={onConfirm} />;
   }
+
   return (
     <BottlesOutput
       bottles={bottlesCtx.bottles}

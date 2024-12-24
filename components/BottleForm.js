@@ -79,7 +79,7 @@ function BottleForm({ selectedBottle, onCancel, onSubmit, label }) {
     <View style={styles.container}>
       <Text style={styles.title}>Your bottle</Text>
       <DropDownPicker
-        placeholder={"Type of wine"}
+        placeholder={"Type de vin"}
         open={open}
         value={value}
         items={wineTypes}
@@ -96,7 +96,7 @@ function BottleForm({ selectedBottle, onCancel, onSubmit, label }) {
         <Input
           isValid={inputValues.vintage.isValid}
           errorText={"Vintage cannot be null"}
-          label="Vintage"
+          label="Millésime"
           style={styles.input}
           inputProps={{
             keyboardType: "decimal-pad",
@@ -108,7 +108,7 @@ function BottleForm({ selectedBottle, onCancel, onSubmit, label }) {
       <Input
         isValid={inputValues.designation.isValid}
         errorText={"Please enter a valid designation"}
-        label="Designation"
+        label="Domaine"
         inputProps={{
           multiline: true,
           onChangeText: inputChangeHandler.bind(this, "designation"),

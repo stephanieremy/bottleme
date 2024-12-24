@@ -3,6 +3,15 @@ import { GlobalStyles } from "../constants/styles";
 import { useNavigation } from "@react-navigation/native";
 import { BottlePages } from "../constants/bottlePages";
 
+const wineTypes = [
+  { label: "Champagne", value: "champagne" },
+  { label: "Red wine", value: "red" },
+  { label: "White wine", value: "white" },
+  { label: "Rose wine", value: "rose" },
+  { label: "Sparkling wine", value: "sparkling" },
+  { label: "Other", value: "other" },
+];
+
 function BottleItem({ id, designation, vintage, type }) {
   const navigation = useNavigation();
 
@@ -16,13 +25,16 @@ function BottleItem({ id, designation, vintage, type }) {
     <Pressable
       onPress={handlePress}
       style={({ pressed }) => pressed && styles.pressed}
+      key={"bottle" + id}
     >
       <View style={styles.container}>
         <View>
           <Text style={[styles.text, styles.descriptionContainer]}>
             a{designation}
           </Text>
-          <Text style={styles.text}>{type}</Text>
+          <Text style={styles.text}>
+            {wineTypes.find((t) => type === t.value).label}
+          </Text>
         </View>
         <View style={styles.vintageContainer}>
           <Text style={styles.vintageText}>{vintage}</Text>

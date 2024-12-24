@@ -2,7 +2,7 @@ import { FlatList } from "react-native";
 import BottleItem from "./BottleItem";
 
 function renderBottleItem(item) {
-  return <BottleItem {...item.item} />;
+  return <BottleItem {...item.item} key={item.id} />;
 }
 
 function BottlesList({ bottles }) {

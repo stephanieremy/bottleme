@@ -58,7 +58,7 @@ function ManageBottle({ route, navigation }) {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: isEdit ? "Edit Bottle" : "Add Bottle",
+      title: isEdit ? "Editer la bouteille" : "Ajouter une bouteille",
     });
   }, [navigation, isEdit]);
 
@@ -76,7 +76,7 @@ function ManageBottle({ route, navigation }) {
         selectedBottle={selectedBottle}
         onCancel={cancelBottle}
         onSubmit={confirmBottle}
-        label={isEdit ? "Edit Bottle" : "Add Bottle"}
+        label={isEdit ? "Editer la bouteille" : "Ajouter une bouteille"}
       />
       {isEdit && (
         <View style={styles.deleteContainer}>

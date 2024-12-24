@@ -5,37 +5,52 @@ import Button from "../UI/Button";
 import { getFormattedDate } from "../util/date";
 import DropDownPicker from "react-native-dropdown-picker";
 import { GlobalStyles } from "../constants/styles";
+import { SelectList } from "react-native-dropdown-select-list";
 
 const wineTypes = [
-  { label: "Champagne", value: "champagne" },
-  { label: "Red wine", value: "red" },
-  { label: "White wine", value: "white" },
-  { label: "Rose wine", value: "rose" },
-  { label: "Sparkling wine", value: "sparkling" },
-  { label: "Other", value: "other" },
+  { value: "Champagne", key: "champagne" },
+  { value: "Vin rouge", key: "red" },
+  { value: "Vin blanc", key: "white" },
+  { value: "Vin rosé", key: "rose" },
+  { value: "Vin mousseux", key: "sparkling" },
+  { value: "Autre", key: "other" },
 ];
+
+const MIN_YEAR = 1900;
+const MAX_YEAR = new Date().getFullYear();
+const options = [];
+for (let i = MAX_YEAR; i >= MIN_YEAR; i--) {
+  options.push({ key: i.toString(), value: i.toString() });
+}
+
+const selectStyles = {
+  backgroundColor: GlobalStyles.colors.primary100,
+  color: GlobalStyles.colors.primary700,
+  marginBottom: 24,
+};
 
 function BottleForm({ selectedBottle, onCancel, onSubmit, label }) {
   const [inputValues, setInputValues] = React.useState({
     designation: {
       value: selectedBottle ? selectedBottle.designation : "",
-      isValid: !!selectedBottle,
+      isValid: true,
     },
     date: {
       value: selectedBottle ? getFormattedDate(selectedBottle.date) : "",
-      isValid: !!selectedBottle,
+      isValid: true,
     },
     vintage: {
       value: selectedBottle ? selectedBottle.vintage.toString() : "",
-      isValid: !!selectedBottle,
+      isValid: true,
     },
     type: {
       value: selectedBottle ? selectedBottle.type : "",
     },
   });
 
-  const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
+
+  const [vintage, setVintage] = useState(null);
 
   function inputChangeHandler(inputIdentifier, value) {
     setInputValues((currentInputValues) => {
@@ -48,10 +63,10 @@ function BottleForm({ selectedBottle, onCancel, onSubmit, label }) {
 
   function submitBottle() {
     const bottle = {
-      designation: inputValues.designation.value,
+      designation: inputValues.designation?.value,
       date: new Date(),
-      vintage: inputValues.vintage.value,
-      type: inputValues.type.value,
+      vintage: vintage,
+      type: value,
     };
 
     const vintageIsValid = !isNaN(bottle.vintage) && bottle.vintage > 0;
@@ -77,34 +92,23 @@ function BottleForm({ selectedBottle, onCancel, onSubmit, label }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Your bottle</Text>
-      <DropDownPicker
-        placeholder={"Type de vin"}
-        open={open}
-        value={value}
-        items={wineTypes}
-        onChangeValue={inputChangeHandler.bind(this, "type")}
-        setOpen={setOpen}
-        style={{
-          backgroundColor: GlobalStyles.colors.primary100,
-          color: GlobalStyles.colors.primary700,
-          marginBottom: 24,
-        }}
-        setValue={setValue}
+      <Text style={styles.title}>Votre bouteille</Text>
+      <SelectList
+        placeholder="Type de vin"
+        setSelected={(val) => setValue(val)}
+        data={wineTypes}
+        save={"key"}
+        dropdownStyles={selectStyles}
+        boxStyles={selectStyles}
       />
-      <View style={styles.inputRow}>
-        <Input
-          isValid={inputValues.vintage.isValid}
-          errorText={"Vintage cannot be null"}
-          label="Millésime"
-          style={styles.input}
-          inputProps={{
-            keyboardType: "decimal-pad",
-            onChangeText: inputChangeHandler.bind(this, "vintage"),
-            value: inputValues.vintage.value,
-          }}
-        ></Input>
-      </View>
+      <SelectList
+        placeholder="Millésime"
+        setSelected={(val) => setVintage(val)}
+        data={options}
+        save={"key"}
+        dropdownStyles={selectStyles}
+        boxStyles={selectStyles}
+      />
       <Input
         isValid={inputValues.designation.isValid}
         errorText={"Please enter a valid designation"}
@@ -114,11 +118,11 @@ function BottleForm({ selectedBottle, onCancel, onSubmit, label }) {
           onChangeText: inputChangeHandler.bind(this, "designation"),
           value: inputValues.designation.value,
         }}
+        styles={selectStyles}
       ></Input>
-
       <View style={styles.buttonContainer}>
         <Button style={styles.button} mode="flat" onPress={onCancel}>
-          Cancel
+          Annuler
         </Button>
         <Button style={styles.button} onPress={submitBottle}>
           {label}

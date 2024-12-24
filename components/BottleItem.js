@@ -5,11 +5,11 @@ import { BottlePages } from "../constants/bottlePages";
 
 const wineTypes = [
   { label: "Champagne", value: "champagne" },
-  { label: "Red wine", value: "red" },
-  { label: "White wine", value: "white" },
-  { label: "Rose wine", value: "rose" },
-  { label: "Sparkling wine", value: "sparkling" },
-  { label: "Other", value: "other" },
+  { label: "Vin rouge", value: "red" },
+  { label: "Vin blanc", value: "white" },
+  { label: "Vin rosé", value: "rose" },
+  { label: "Vin mousseux", value: "sparkling" },
+  { label: "Autre", value: "other" },
 ];
 
 function BottleItem({ id, designation, vintage, type }) {

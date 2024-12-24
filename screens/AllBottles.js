@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 
 import { BottlesContext } from "../store/bottle-context";
 import BottlesOutput from "../components/BottleOutput";
-import { fetchBottles } from "../util/http";
+import { fetchBottles } from "../util/db";
 import LoadingOverlay from "../UI/LoadingOverlay";
 import ErrorOverlay from "../UI/ErrorOverlay";
 

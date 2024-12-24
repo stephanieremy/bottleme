@@ -4,7 +4,7 @@ import IconButton from "../UI/IconButton";
 import { GlobalStyles } from "../constants/styles";
 import { BottlesContext } from "../store/bottle-context";
 import BottleForm from "../components/BottleForm";
-import { deleteBottle, storeBottle, updateBottle } from "../util/http";
+import { deleteBottle, storeBottle, updateBottle } from "../util/db";
 import LoadingOverlay from "../UI/LoadingOverlay";
 import ErrorOverlay from "../UI/ErrorOverlay";
 

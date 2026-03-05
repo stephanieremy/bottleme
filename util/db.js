@@ -1,6 +1,6 @@
 import { drizzle } from "drizzle-orm/expo-sqlite";
 import { openDatabaseSync } from "expo-sqlite";
-import { bottles as bottlesSchema } from "../store/schema";
+import { bottles as bottlesSchema } from "../api/schema";
 import { eq } from "drizzle-orm";
 
 const expo = openDatabaseSync("db.db");

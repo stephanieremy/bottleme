@@ -1,39 +1,26 @@
-import { useContext, useEffect, useState } from "react";
-import { BottlesContext } from "../store/bottle-context";
+import { useContext, useEffect } from "react";
+import { BottlesContext } from "../api/bottle-context";
 import BottlesOutput from "../components/BottleOutput";
-import { fetchRecentBottles } from "../util/db";
 import LoadingOverlay from "../UI/LoadingOverlay";
 import ErrorOverlay from "../UI/ErrorOverlay";
+import {useBottlesService} from "../api/apiState";
 
 function RecentBottles() {
-  const [isFetching, setIsFetching] = useState(false);
-  const [error, setError] = useState(null);
   const bottlesCtx = useContext(BottlesContext);
+  const {getAllBottles} = useBottlesService()
+
   useEffect(() => {
-    setIsFetching(true);
-
-    async function getBottles() {
-      try {
-        const bottles = await fetchRecentBottles();
-        bottlesCtx.setBottles(bottles);
-      } catch (e) {
-        setError(e);
-      }
+    if (getAllBottles.data) {
+      bottlesCtx.setBottles(getAllBottles.data);
     }
-    setIsFetching(false);
-    getBottles();
-  }, []);
+  }, [getAllBottles.data]);
 
-  function onConfirm() {
-    setError(null);
-  }
-
-  if (isFetching) {
+  if (getAllBottles.isLoading) {
     return <LoadingOverlay />;
   }
 
-  if (!(error && !isFetching)) {
-    return <ErrorOverlay message={error} onConfirm={onConfirm} />;
+  if (getAllBottles.isError) {
+    return <ErrorOverlay message={getAllBottles.error?.message} onConfirm={() => getAllBottles.refetch()} />;
   }
 
   return (

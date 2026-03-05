@@ -30,10 +30,10 @@ function BottleItem({ id, designation, vintage, type }) {
       <View style={styles.container}>
         <View>
           <Text style={[styles.text, styles.descriptionContainer]}>
-            a{designation}
+            {designation}
           </Text>
           <Text style={styles.text}>
-            {wineTypes.find((t) => type === t.value).label}
+            {wineTypes.find((t) => type === t.value)?.label}
           </Text>
         </View>
         <View style={styles.vintageContainer}>

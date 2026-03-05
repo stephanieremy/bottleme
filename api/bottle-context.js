@@ -11,7 +11,7 @@ export const BottlesContext = createContext({
 function bottlesReducer(state, action) {
   switch (action.type) {
     case "SET":
-      return action.payload.reverse();
+      return action.payload;
     case "ADD":
       return [action.payload, ...state];
     case "UPDATE":
@@ -34,6 +34,7 @@ function BottlesContextProvider({ children }) {
   const [bottleState, dispatch] = useReducer(bottlesReducer, []);
 
   function setBottles(bottles) {
+
     dispatch({ type: "SET", payload: bottles });
   }
 

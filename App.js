@@ -8,12 +8,14 @@ import { GlobalStyles } from "./constants/styles";
 import { Ionicons } from "@expo/vector-icons";
 import IconButton from "./UI/IconButton";
 import { BottlePages } from "./constants/bottlePages";
-import BottlesContextProvider from "./store/bottle-context";
+import BottlesContextProvider from "./api/bottle-context";
 import RecentBottles from "./screens/RecentBottle";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
   const BottomTabs = createBottomTabNavigator();
+    const queryClient = new QueryClient()
 
   function BottlesOverview() {
     return (
@@ -62,7 +64,7 @@ export default function App() {
   }
 
   return (
-    <>
+      <QueryClientProvider client={queryClient}>
       <StatusBar style="light" />
       <BottlesContextProvider>
         <NavigationContainer>
@@ -85,6 +87,6 @@ export default function App() {
           </Stack.Navigator>
         </NavigationContainer>
       </BottlesContextProvider>
-    </>
+    </QueryClientProvider>
   );
 }

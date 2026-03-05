@@ -36,7 +36,7 @@ function BottleForm({ selectedBottle, onCancel, onSubmit, label }) {
       isValid: true,
     },
     date: {
-      value: selectedBottle ? getFormattedDate(selectedBottle.date) : "",
+      value: selectedBottle?.creationDate ? getFormattedDate(new Date(selectedBottle.creationDate)) : "",
       isValid: true,
     },
     vintage: {

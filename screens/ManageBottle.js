@@ -2,11 +2,11 @@ import { StyleSheet, View } from "react-native";
 import { useContext, useLayoutEffect, useState } from "react";
 import IconButton from "../UI/IconButton";
 import { GlobalStyles } from "../constants/styles";
-import { BottlesContext } from "../store/bottle-context";
+import { BottlesContext } from "../api/bottle-context";
 import BottleForm from "../components/BottleForm";
-import { deleteBottle, storeBottle, updateBottle } from "../util/db";
 import LoadingOverlay from "../UI/LoadingOverlay";
 import ErrorOverlay from "../UI/ErrorOverlay";
+import { useBottlesService } from "../api/apiState";
 
 function ManageBottle({ route, navigation }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -19,13 +19,15 @@ function ManageBottle({ route, navigation }) {
     (bottle) => bottle.id === editedBottleId,
   );
 
+  const { createBottle, updateBottle, deleteBottle } = useBottlesService();
+
   async function deleteBottleHandler() {
     setIsSubmitting(true);
     try {
-      await deleteBottle(editedBottleId);
+      await deleteBottle.mutateAsync(editedBottleId);
       bottleContext.deleteBottle(editedBottleId);
       navigation.goBack();
-    } catch (error) {
+    } catch (e) {
       setError("This bottle has not been deleted");
       setIsSubmitting(false);
     }
@@ -43,14 +45,14 @@ function ManageBottle({ route, navigation }) {
     setIsSubmitting(true);
     try {
       if (isEdit) {
+        await updateBottle.mutateAsync({ id: editedBottleId, ...bottle });
         bottleContext.updateBottle(editedBottleId, bottle);
-        await updateBottle(editedBottleId, bottle);
       } else {
-        const id = await storeBottle(bottle);
-        bottleContext.addBottle({ ...bottle, id: id });
+        const created = await createBottle.mutateAsync(bottle);
+        bottleContext.addBottle(created);
       }
       navigation.goBack();
-    } catch (error) {
+    } catch (e) {
       setError("Could not save data. Please try again");
       setIsSubmitting(false);
     }

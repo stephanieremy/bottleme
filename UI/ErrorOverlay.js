@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 24,
-    backgroundColor: GlobalStyles.colors.primary700,
+    backgroundColor: "#1E1A14",
   },
   text: {
     textAlign: "center",

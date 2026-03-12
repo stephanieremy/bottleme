@@ -24,7 +24,7 @@ for (let i = MAX_YEAR; i >= MIN_YEAR; i--) {
 }
 
 const selectStyles = {
-  backgroundColor: GlobalStyles.colors.primary100,
+  backgroundColor: "#1E1A14",
   color: GlobalStyles.colors.primary700,
   marginBottom: 24,
 };
@@ -36,7 +36,9 @@ function BottleForm({ selectedBottle, onCancel, onSubmit, label }) {
       isValid: true,
     },
     date: {
-      value: selectedBottle?.creationDate ? getFormattedDate(new Date(selectedBottle.creationDate)) : "",
+      value: selectedBottle?.creationDate
+        ? getFormattedDate(new Date(selectedBottle.creationDate))
+        : "",
       isValid: true,
     },
     vintage: {

@@ -18,10 +18,10 @@ const styles = StyleSheet.create({
     paddingTop: 24,
     paddingBottom: 0,
     flex: 1,
-    backgroundColor: GlobalStyles.colors.primary700,
+    backgroundColor: "#F5F0E8",
   },
   infoText: {
-    color: "white",
+    color: "#1E1A14",
     fontSize: 16,
     textAlign: "center",
     marginTop: 32,

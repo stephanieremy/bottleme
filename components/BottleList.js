@@ -1,8 +1,8 @@
 import { FlatList } from "react-native";
-import BottleItem from "./BottleItem";
+import { WineCard } from "../UI/WineCard";
 
 function renderBottleItem(item) {
-  return <BottleItem {...item.item} key={item.id} />;
+  return <WineCard bottle={item.item} key={item.id} />;
 }
 
 function BottlesList({ bottles }) {
@@ -11,6 +11,7 @@ function BottlesList({ bottles }) {
       data={bottles}
       renderItem={renderBottleItem}
       keyExtractor={(item) => item.id}
+      contentContainerStyle={{ padding: 4, gap: 12 }}
     />
   );
 }

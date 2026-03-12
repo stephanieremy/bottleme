@@ -10,21 +10,41 @@ import IconButton from "./UI/IconButton";
 import { BottlePages } from "./constants/bottlePages";
 import BottlesContextProvider from "./api/bottle-context";
 import RecentBottles from "./screens/RecentBottle";
-import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useFonts } from "expo-font";
+import {
+  PlayfairDisplay_700Bold,
+  PlayfairDisplay_900Black,
+} from "@expo-google-fonts/playfair-display";
+import { CormorantGaramond_400Regular_Italic } from "@expo-google-fonts/cormorant-garamond";
+import {
+  DMSans_400Regular,
+  DMSans_500Medium,
+} from "@expo-google-fonts/dm-sans";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
   const BottomTabs = createBottomTabNavigator();
-    const queryClient = new QueryClient()
+  const queryClient = new QueryClient();
+
+  const [fontsLoaded] = useFonts({
+    PlayfairDisplay: PlayfairDisplay_700Bold,
+    PlayfairDisplayBlack: PlayfairDisplay_900Black,
+    CormorantGaramond: CormorantGaramond_400Regular_Italic,
+    DMSans: DMSans_400Regular,
+    DMSansMedium: DMSans_500Medium,
+  });
+
+  if (!fontsLoaded) return null;
 
   function BottlesOverview() {
     return (
       <BottomTabs.Navigator
         screenOptions={({ navigation }) => ({
-          headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
+          headerStyle: { backgroundColor: "#1E1A14" },
           headerTintColor: "white",
-          tabBarStyle: { backgroundColor: GlobalStyles.colors.primary500 },
-          tabBarActiveTintColor: GlobalStyles.colors.accent500,
+          tabBarStyle: { backgroundColor: "#1E1A14" },
+          tabBarActiveTintColor: "#1E1A14",
           headerRight: ({ tintColor }) => (
             <IconButton
               icon="add"
@@ -64,13 +84,13 @@ export default function App() {
   }
 
   return (
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
       <StatusBar style="light" />
       <BottlesContextProvider>
         <NavigationContainer>
           <Stack.Navigator
             screenOptions={{
-              headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
+              headerStyle: { backgroundColor: "#1E1A14" },
               headerTintColor: "white",
             }}
           >
@@ -90,4 +110,3 @@ export default function App() {
     </QueryClientProvider>
   );
 }
-

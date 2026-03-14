@@ -1,46 +1,56 @@
-# BottleMe
+# 🍷 BottleMe
 
-An app to register all your precious bottles of wine
+A mobile app to manage your personal wine cellar — track your bottles,
+vintages, appellations and tasting notes, all in one place.
 
-## What's inside?
+Built with React Native (Expo) and a self-hosted Java backend.
 
-This repo uses [Expo](https://docs.expo.dev/) It includes the following packages/apps:
+## Tech Stack
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-- [Metro ](https://docs.expo.dev/guides/customizing-metro/)is used to bundle the app
-- [Firebase](https://firebase.google.com/) provides a real-time database
+**Frontend**
 
-### Pre requisites
+- React Native / Expo (TypeScript)
+- Atomic Design architecture
 
-- for Android, install [Android SDK](https://developer.android.com/studio?hl=fr) and create an emulator
-- for IOS follow the instructions [there](https://developer.apple.com/ios/)
-- you can also install Expo on
-  your [mobile phone](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=fr&pli=1)
+**Backend**
 
-### Development
+- Java (self-hosted)
+- Domain-Driven Design (DDD)
+- MongoDB Atlas (database)
 
-To start the server and build the app, the following command:
+**Design & Tooling**
 
-```
+- Figma (UI design)
+- ESLint / Prettier
+- Metro (bundler)
+
+## Prerequisites
+
+- For Android: install [Android SDK](https://developer.android.com/studio?hl=fr) and create an emulator
+- For iOS: follow the instructions [here](https://developer.apple.com/ios/)
+- Or install [Expo Go](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=fr&pli=1) on your mobile phone
+
+## Development
+
+Start the server and build the app:
+
+```bash
 npx metro start
 ```
 
-```
+```bash
 cd Bottleme
 npx expo
 ```
 
-Then choose a for android, w for web, or scan the QR code with the Expo App
+Then choose `a` for Android, `w` for web, or scan the QR code with Expo Go.
 
-### Build
+## Build
 
-To build with Expo, you must register in [Expo Dev](https://expo.dev)
-To build the app on Expo Dev run the following command :
+Register on [Expo Dev](https://expo.dev) then run:
 
+```bash
+eas build -p android --profile preview
 ```
- eas build -p android --profile preview
-```
 
-You will be able to run the app on a local emulator
+You will be able to run the app on a local emulator.

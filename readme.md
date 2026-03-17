@@ -20,7 +20,7 @@ Built with React Native (Expo) and a self-hosted Java backend.
 
 **Design & Tooling**
 
-- Figma (UI design)
+- Figma (UI design) : [Prototype here](https://www.figma.com/proto/Ey2tcwDSi6xACE0dutCjIT/Untitled?page-id=0%3A1&node-id=27-8&p=f&viewport=-348%2C429%2C0.81&t=gNpzBY6CtrtTEBus-1&scaling=scale-down&content-scaling=fixed)
 - ESLint / Prettier
 - Metro (bundler)
 

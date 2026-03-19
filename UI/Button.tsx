@@ -1,34 +1,36 @@
-import { Pressable, Text } from "react-native";
+import { Pressable, Text, StyleSheet } from "react-native";
+import { GlobalStyles } from "../constants/styles";
 
-function Button({ type = "primary", size = "md", children }) {
-  const typeStyles = {
-    primary: { backgroundColor: "#C4522A" },
-    secondary: {
-      backgroundColor: "transparent",
-      borderWidth: 1,
-      borderColor: "#DDD4C0",
-    },
-    ghost: {
-      backgroundColor: "transparent",
-      borderWidth: 1,
-      borderColor: "#C4522A",
-    },
-    sage: { backgroundColor: "#3D7A58" },
-    danger: { backgroundColor: "#B83020" },
-  };
+const TYPE_STYLES = {
+  primary: { backgroundColor: GlobalStyles.colors.terracotta },
+  secondary: {
+    backgroundColor: "transparent",
+    borderWidth: 1,
+    borderColor: GlobalStyles.colors.border,
+  },
+  ghost: {
+    backgroundColor: "transparent",
+    borderWidth: 1,
+    borderColor: GlobalStyles.colors.terracotta,
+  },
+  sage: { backgroundColor: GlobalStyles.colors.sage },
+  danger: { backgroundColor: GlobalStyles.colors.error },
+};
 
-  const sizeStyles = {
-    sm: { paddingVertical: 8, paddingHorizontal: 18 },
-    md: { paddingVertical: 12, paddingHorizontal: 28 },
-    lg: { paddingVertical: 16, paddingHorizontal: 40 },
-  };
+const SIZE_STYLES = {
+  sm: { paddingVertical: 8, paddingHorizontal: 18 },
+  md: { paddingVertical: 12, paddingHorizontal: 28 },
+  lg: { paddingVertical: 16, paddingHorizontal: 40 },
+};
 
+function Button({ type = "primary", size = "md", children, onPress }) {
   return (
     <Pressable
+      onPress={onPress}
       style={({ pressed }) => [
-        { borderRadius: 9999 },
-        typeStyles[type],
-        sizeStyles[size],
+        styles.base,
+        TYPE_STYLES[type],
+        SIZE_STYLES[size],
         pressed && { opacity: 0.8 },
       ]}
     >
@@ -36,5 +38,11 @@ function Button({ type = "primary", size = "md", children }) {
     </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  base: {
+    borderRadius: 9999,
+  },
+});
 
 export default Button;

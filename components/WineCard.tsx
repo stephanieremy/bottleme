@@ -1,6 +1,7 @@
 import { Pressable, View, Text, StyleSheet } from "react-native";
-import { WineTypeBadge } from "./WineTypeBadge";
-import { BadgeInfo } from "./BadgeInfo";
+import { WineTypeBadge } from "../UI/WineTypeBadge";
+import { BadgeInfo } from "../UI/BadgeInfo";
+import { GlobalStyles } from "../constants/styles";
 
 export function WineCard({ bottle }) {
   return (
@@ -30,10 +31,10 @@ export function WineCard({ bottle }) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#FDFAF5",
+    backgroundColor: GlobalStyles.colors.surface,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: "#DDD4C0",
+    borderColor: GlobalStyles.colors.border,
     paddingHorizontal: 14,
     paddingVertical: 10,
     flexDirection: "row",
@@ -54,12 +55,12 @@ const styles = StyleSheet.create({
   vintage: {
     fontFamily: "PlayfairDisplayBlack",
     fontSize: 22,
-    color: "#A67C2E",
+    color: GlobalStyles.colors.gold,
   },
   name: {
     fontFamily: "PlayfairDisplay",
     fontSize: 15,
-    color: "#1E1A14",
+    color: GlobalStyles.colors.ink,
     flexShrink: 1,
     flexWrap: "wrap",
     paddingTop: 6,
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
     fontFamily: "CormorantGaramond",
     fontStyle: "italic",
     fontSize: 12,
-    color: "#6B5F4E",
+    color: GlobalStyles.colors.inkMid,
   },
   badges: {
     flexDirection: "row",
@@ -78,12 +79,12 @@ const styles = StyleSheet.create({
   score: {
     fontFamily: "PlayfairDisplayBlack",
     fontSize: 26,
-    color: "#A67C2E",
+    color: GlobalStyles.colors.gold,
   },
   scorePts: {
     fontFamily: "DMSans",
     fontSize: 10,
-    color: "#A89880",
+    color: GlobalStyles.colors.inkLight,
     textTransform: "uppercase",
     letterSpacing: 1,
   },

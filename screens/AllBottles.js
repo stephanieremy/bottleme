@@ -1,32 +1,27 @@
-import { useContext, useEffect } from "react";
-
-import { BottlesContext } from "../api/bottle-context";
 import BottlesOutput from "../components/BottleOutput";
 import LoadingOverlay from "../UI/LoadingOverlay";
 import ErrorOverlay from "../UI/ErrorOverlay";
-import {useBottlesService} from "../api/apiState";
+import { useBottlesService } from "../api/apiState";
 
 function AllBottles() {
-  const bottlesCtx = useContext(BottlesContext);
-  const {getAllBottles} = useBottlesService()
-
-  useEffect(() => {
-    if (getAllBottles.data) {
-      bottlesCtx.setBottles(getAllBottles.data);
-    }
-  }, [getAllBottles.data]);
+  const { getAllBottles } = useBottlesService();
 
   if (getAllBottles.isLoading) {
     return <LoadingOverlay />;
   }
 
   if (getAllBottles.isError) {
-    return <ErrorOverlay message={getAllBottles.error?.message} onConfirm={() => getAllBottles.refetch()} />;
+    return (
+      <ErrorOverlay
+        message={getAllBottles.error?.message}
+        onConfirm={() => getAllBottles.refetch()}
+      />
+    );
   }
 
   return (
     <BottlesOutput
-      bottles={bottlesCtx.bottles}
+      bottles={getAllBottles.data ?? []}
       period="Total"
       fallbackText="No registered bottles found!"
     />

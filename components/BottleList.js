@@ -1,5 +1,5 @@
 import { FlatList } from "react-native";
-import { WineCard } from "../UI/WineCard";
+import { WineCard } from "./WineCard";
 
 function renderBottleItem(item) {
   return <WineCard bottle={item.item} key={item.id} />;

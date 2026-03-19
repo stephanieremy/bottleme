@@ -1,132 +1,165 @@
 import { StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
 import Input from "../UI/Input";
-import React, { useState } from "react";
 import Button from "../UI/Button";
-import { getFormattedDate } from "../util/date";
-import DropDownPicker from "react-native-dropdown-picker";
+import Select from "../UI/Select";
 import { GlobalStyles } from "../constants/styles";
-import { SelectList } from "react-native-dropdown-select-list";
 
-const wineTypes = [
-  { value: "Champagne", key: "champagne" },
-  { value: "Vin rouge", key: "red" },
-  { value: "Vin blanc", key: "white" },
-  { value: "Vin rosé", key: "rose" },
-  { value: "Vin mousseux", key: "sparkling" },
-  { value: "Autre", key: "other" },
+const WINE_TYPES = [
+  { label: "Rouge", value: "RED" },
+  { label: "Blanc", value: "WHITE" },
+  { label: "Rosé", value: "PINK" },
+  { label: "Champagne", value: "CHAMPAGNE" },
+  { label: "Pétillant", value: "SPARKLING" },
+  { label: "Liquoreux", value: "MUTED" },
 ];
 
-const MIN_YEAR = 1900;
-const MAX_YEAR = new Date().getFullYear();
-const options = [];
-for (let i = MAX_YEAR; i >= MIN_YEAR; i--) {
-  options.push({ key: i.toString(), value: i.toString() });
-}
-
-const selectStyles = {
-  backgroundColor: "#1E1A14",
-  color: GlobalStyles.colors.primary700,
-  marginBottom: 24,
-};
+const VINTAGE_OPTIONS = Array.from(
+  { length: new Date().getFullYear() - 1900 + 1 },
+  (_, i) => new Date().getFullYear() - i,
+);
 
 function BottleForm({ selectedBottle, onCancel, onSubmit, label }) {
-  const [inputValues, setInputValues] = React.useState({
-    designation: {
-      value: selectedBottle ? selectedBottle.designation : "",
-      isValid: true,
-    },
-    date: {
-      value: selectedBottle?.creationDate
-        ? getFormattedDate(new Date(selectedBottle.creationDate))
-        : "",
-      isValid: true,
-    },
-    vintage: {
-      value: selectedBottle ? selectedBottle.vintage.toString() : "",
-      isValid: true,
-    },
-    type: {
-      value: selectedBottle ? selectedBottle.type : "",
-    },
+  const [inputs, setInputs] = useState({
+    name: selectedBottle?.name ?? "",
+    designation: selectedBottle?.designation ?? "",
+    region: selectedBottle?.region ?? "",
+    quantity: selectedBottle?.quantity?.toString() ?? "",
+    price: selectedBottle?.price?.toString() ?? "",
+    score: selectedBottle?.score?.toString() ?? "",
   });
 
-  const [value, setValue] = useState(null);
+  const [type, setType] = useState(selectedBottle?.type ?? null);
+  const [vintage, setVintage] = useState(
+    selectedBottle?.vintage?.toString() ?? null,
+  );
 
-  const [vintage, setVintage] = useState(null);
+  const [errors, setErrors] = useState({});
 
-  function inputChangeHandler(inputIdentifier, value) {
-    setInputValues((currentInputValues) => {
-      return {
-        ...currentInputValues,
-        [inputIdentifier]: { value: value, isValid: true },
-      };
-    });
+  function inputChangeHandler(field, value) {
+    setInputs((current) => ({ ...current, [field]: value }));
+    setErrors((current) => ({ ...current, [field]: false }));
   }
 
   function submitBottle() {
-    const bottle = {
-      designation: inputValues.designation?.value,
-      date: new Date(),
-      vintage: vintage,
-      type: value,
+    console.log("submitBottle called", inputs, type, vintage);
+    const newErrors = {
+      name: inputs.name.trim().length === 0,
+      designation: inputs.designation.trim().length === 0,
+      type: !type,
+      vintage: !vintage,
     };
 
-    const vintageIsValid = !isNaN(bottle.vintage) && bottle.vintage > 0;
-    const designationIsValid = bottle.designation?.trim().length > 0;
-
-    if (!designationIsValid || !vintageIsValid) {
-      setInputValues((currentInput) => {
-        return {
-          designation: {
-            value: currentInput.designation.value,
-            isValid: designationIsValid,
-          },
-          vintage: {
-            value: currentInput.vintage.value,
-            isValid: vintageIsValid,
-          },
-        };
-      });
+    if (Object.values(newErrors).some(Boolean)) {
+      setErrors(newErrors);
       return;
     }
-    onSubmit(bottle);
+
+    onSubmit({
+      name: inputs.name,
+      designation: inputs.designation,
+      region: inputs.region,
+      quantity: inputs.quantity ? parseInt(inputs.quantity) : null,
+      price: inputs.price ? parseFloat(inputs.price) : null,
+      score: inputs.score ? parseInt(inputs.score) : null,
+      type,
+      vintage: parseInt(vintage),
+    });
   }
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Votre bouteille</Text>
-      <SelectList
-        placeholder="Type de vin"
-        setSelected={(val) => setValue(val)}
-        data={wineTypes}
-        save={"key"}
-        dropdownStyles={selectStyles}
-        boxStyles={selectStyles}
+
+      <Select
+        label="Type de vin"
+        placeholder="Choisir un type"
+        value={type}
+        options={WINE_TYPES}
+        onSelect={setType}
       />
-      <SelectList
-        placeholder="Millésime"
-        setSelected={(val) => setVintage(val)}
-        data={options}
-        save={"key"}
-        dropdownStyles={selectStyles}
-        boxStyles={selectStyles}
+      {errors.type && <Text style={styles.errorText}>Choisissez un type</Text>}
+
+      <Select
+        label="Millésime"
+        placeholder="Choisir un millésime"
+        value={vintage}
+        options={VINTAGE_OPTIONS}
+        onSelect={(val) => setVintage(val)}
       />
+      {errors.vintage && (
+        <Text style={styles.errorText}>Choisissez un millésime</Text>
+      )}
+
       <Input
-        isValid={inputValues.designation.isValid}
-        errorText={"Please enter a valid designation"}
-        label="Domaine"
+        label="Nom du château"
+        isValid={!errors.name}
+        errorText="Champ obligatoire"
         inputProps={{
-          multiline: true,
-          onChangeText: inputChangeHandler.bind(this, "designation"),
-          value: inputValues.designation.value,
+          value: inputs.name,
+          onChangeText: (val) => inputChangeHandler("name", val),
+          placeholder: "ex: Château Margaux",
         }}
-        styles={selectStyles}
-      ></Input>
+      />
+
+      <Input
+        label="Appellation"
+        isValid={!errors.designation}
+        errorText="Champ obligatoire"
+        inputProps={{
+          value: inputs.designation,
+          onChangeText: (val) => inputChangeHandler("designation", val),
+          placeholder: "ex: Margaux, Bordeaux",
+        }}
+      />
+
+      <Input
+        label="Région"
+        inputProps={{
+          value: inputs.region,
+          onChangeText: (val) => inputChangeHandler("region", val),
+          placeholder: "ex: Bordeaux",
+        }}
+      />
+
+      <Input
+        label="Quantité"
+        inputProps={{
+          value: inputs.quantity,
+          onChangeText: (val) =>
+            inputChangeHandler("quantity", val.replace(/[^0-9]/g, "")),
+          keyboardType: "numeric",
+          placeholder: "ex: 6",
+        }}
+      />
+
+      <Input
+        label="Prix / bouteille"
+        inputProps={{
+          value: inputs.price,
+          onChangeText: (val) =>
+            inputChangeHandler("price", val.replace(/[^0-9.]/g, "")),
+          keyboardType: "numeric",
+          placeholder: "ex: 380",
+        }}
+      />
+
+      <Input
+        label="Score"
+        inputProps={{
+          value: inputs.score,
+          onChangeText: (val) =>
+            inputChangeHandler("score", val.replace(/[^0-9]/g, "")),
+          keyboardType: "numeric",
+          placeholder: "ex: 97",
+        }}
+      />
+
       <View style={styles.buttonContainer}>
-        <Button style={styles.button} mode="flat" onPress={onCancel}>
+        <Button type="secondary" onPress={onCancel}>
           Annuler
         </Button>
-        <Button style={styles.button} onPress={submitBottle}>
+        <Button type="primary" onPress={submitBottle}>
           {label}
         </Button>
       </View>
@@ -137,30 +170,27 @@ function BottleForm({ selectedBottle, onCancel, onSubmit, label }) {
 export default BottleForm;
 
 const styles = StyleSheet.create({
-  inputRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  input: {
-    flex: 1,
-  },
   container: {
-    marginTop: 40,
+    marginTop: 16,
   },
   title: {
+    fontFamily: "PlayfairDisplay",
     fontSize: 24,
-    fontWeight: "bold",
-    color: "white",
-    marginVertical: 24,
+    color: GlobalStyles.colors.ink,
+    marginBottom: 24,
     textAlign: "center",
   },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center",
+    gap: 12,
+    marginTop: 8,
   },
-  button: {
-    minWidth: 120,
-    marginHorizontal: 8,
+  errorText: {
+    fontFamily: "DMSans",
+    fontSize: 12,
+    color: GlobalStyles.colors.error,
+    marginTop: -12,
+    marginBottom: 12,
   },
 });

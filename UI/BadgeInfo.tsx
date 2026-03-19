@@ -1,14 +1,29 @@
 import { View, Text, StyleSheet } from "react-native";
+import { GlobalStyles } from "../constants/styles";
+
+const TYPE_STYLES = {
+  region: {
+    backgroundColor: GlobalStyles.colors.indigoMuted,
+    color: GlobalStyles.colors.indigo,
+  },
+  quantity: {
+    backgroundColor: GlobalStyles.colors.sageMuted,
+    color: GlobalStyles.colors.sage,
+  },
+  price: {
+    backgroundColor: GlobalStyles.colors.goldMuted,
+    color: GlobalStyles.colors.gold,
+  },
+  outOfStock: {
+    backgroundColor: GlobalStyles.colors.errorMuted,
+    color: GlobalStyles.colors.error,
+  },
+};
 
 export function BadgeInfo({ type, children }) {
-  const typeStyles = {
-    region: { backgroundColor: "#D0D6F5", color: "#3D4F9E" },
-    quantity: { backgroundColor: "#C4E0D0", color: "#3D7A58" },
-    price: { backgroundColor: "#EDE0B0", color: "#7A5A10" },
-    outOfStock: { backgroundColor: "#F5DDD8", color: "#B83020" },
-  };
+  const style = TYPE_STYLES[type];
 
-  const style = typeStyles[type];
+  if (!style) return null;
 
   return (
     <View style={[styles.badge, { backgroundColor: style.backgroundColor }]}>

@@ -12,7 +12,7 @@ export function WineCard({ bottle }) {
       </View>
       <View style={styles.centerColumn}>
         <Text style={styles.name}>{bottle?.name}</Text>
-        <Text style={styles.designation}>{bottle?.designation}</Text>
+        <Text style={styles.appellation}>{bottle?.appellation}</Text>
         <View style={styles.badges}>
           <BadgeInfo type="region">{bottle?.region}</BadgeInfo>
           <BadgeInfo type="quantity">×{bottle?.quantity} btl.</BadgeInfo>
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     paddingTop: 6,
   },
-  designation: {
+  appellation: {
     fontFamily: "CormorantGaramond",
     fontStyle: "italic",
     fontSize: 12,

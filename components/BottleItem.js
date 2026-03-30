@@ -12,7 +12,7 @@ const wineTypes = [
   { label: "Autre", value: "other" },
 ];
 
-function BottleItem({ id, designation, vintage, type }) {
+function BottleItem({ id, appellation, vintage, type }) {
   const navigation = useNavigation();
 
   function handlePress() {
@@ -30,7 +30,7 @@ function BottleItem({ id, designation, vintage, type }) {
       <View style={styles.container}>
         <View>
           <Text style={[styles.text, styles.descriptionContainer]}>
-            {designation}
+            {appellation}
           </Text>
           <Text style={styles.text}>
             {wineTypes.find((t) => type === t.value)?.label}

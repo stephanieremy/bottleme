@@ -11,7 +11,7 @@ const WINE_TYPES = [
   { label: "Rosé", value: "PINK" },
   { label: "Champagne", value: "CHAMPAGNE" },
   { label: "Pétillant", value: "SPARKLING" },
-  { label: "Liquoreux", value: "MUTED" },
+  { label: "Liquoreux", value: "SWEET" },
 ];
 
 const VINTAGE_OPTIONS = Array.from(
@@ -22,11 +22,12 @@ const VINTAGE_OPTIONS = Array.from(
 function BottleForm({ selectedBottle, onCancel, onSubmit, label }) {
   const [inputs, setInputs] = useState({
     name: selectedBottle?.name ?? "",
-    designation: selectedBottle?.designation ?? "",
+    appellation: selectedBottle?.appellation ?? "",
     region: selectedBottle?.region ?? "",
     quantity: selectedBottle?.quantity?.toString() ?? "",
     price: selectedBottle?.price?.toString() ?? "",
     score: selectedBottle?.score?.toString() ?? "",
+    notes: selectedBottle?.notes ?? "",
   });
 
   const [type, setType] = useState(selectedBottle?.type ?? null);
@@ -45,7 +46,7 @@ function BottleForm({ selectedBottle, onCancel, onSubmit, label }) {
     console.log("submitBottle called", inputs, type, vintage);
     const newErrors = {
       name: inputs.name.trim().length === 0,
-      designation: inputs.designation.trim().length === 0,
+      appellation: inputs.appellation.trim().length === 0,
       type: !type,
       vintage: !vintage,
     };
@@ -57,11 +58,12 @@ function BottleForm({ selectedBottle, onCancel, onSubmit, label }) {
 
     onSubmit({
       name: inputs.name,
-      designation: inputs.designation,
+      appellation: inputs.appellation,
       region: inputs.region,
       quantity: inputs.quantity ? parseInt(inputs.quantity) : null,
       price: inputs.price ? parseFloat(inputs.price) : null,
       score: inputs.score ? parseInt(inputs.score) : null,
+      notes: inputs.notes.trim().length > 0 ? inputs.notes.trim() : null,
       type,
       vintage: parseInt(vintage),
     });
@@ -104,11 +106,11 @@ function BottleForm({ selectedBottle, onCancel, onSubmit, label }) {
 
       <Input
         label="Appellation"
-        isValid={!errors.designation}
+        isValid={!errors.appellation}
         errorText="Champ obligatoire"
         inputProps={{
-          value: inputs.designation,
-          onChangeText: (val) => inputChangeHandler("designation", val),
+          value: inputs.appellation,
+          onChangeText: (val) => inputChangeHandler("appellation", val),
           placeholder: "ex: Margaux, Bordeaux",
         }}
       />
@@ -152,6 +154,16 @@ function BottleForm({ selectedBottle, onCancel, onSubmit, label }) {
             inputChangeHandler("score", val.replace(/[^0-9]/g, "")),
           keyboardType: "numeric",
           placeholder: "ex: 97",
+        }}
+      />
+
+      <Input
+        label="Notes"
+        inputProps={{
+          value: inputs.notes,
+          onChangeText: (val) => inputChangeHandler("notes", val),
+          placeholder: "ex: Belle robe, nez complexe...",
+          multiline: true,
         }}
       />
 

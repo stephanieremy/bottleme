@@ -1,11 +1,12 @@
 export interface Bottle {
   id: string;
-  designation: string;
-  vintage: string;
+  appellation: string;
+  vintage: number;
   type: string;
   creationDate: Date;
   region?: string;
   quantity?: number;
   price?: number;
   score?: number;
+  notes?: string;
 }

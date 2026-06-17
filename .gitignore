@@ -34,5 +34,14 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
+# storybook
 *storybook.log
 storybook-static
+
+# Android
+android/.gradle/
+android/build/
+android/app/build/
+
+# IDE
+.idea/

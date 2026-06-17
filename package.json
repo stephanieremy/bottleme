@@ -27,6 +27,7 @@
     "babel-plugin-inline-import": "^3.0.0",
     "drizzle-orm": "^0.38.2",
     "expo": "^52.0.23",
+    "expo-build-properties": "~0.13.3",
     "expo-font": "~13.0.4",
     "expo-sqlite": "^15.0.3",
     "expo-status-bar": "~2.0.0",

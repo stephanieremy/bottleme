@@ -44,4 +44,5 @@ android/build/
 android/app/build/
 
 # IDE
-.idea/
+.idea//android
+/ios
